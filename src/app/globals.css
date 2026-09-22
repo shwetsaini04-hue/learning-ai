@@ -1,26 +1,279 @@
 @import "tailwindcss";
+@import "@xyflow/react/dist/style.css";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------------------------------------------
+   Design tokens. Neutrals and data colors follow a validated,
+   colorblind-checked palette; dark mode is its own selected set.
+   ------------------------------------------------------------------ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+  --bg: #f4f4f1;
+  --surface: #fcfcfb;
+  --surface-2: #f1f0ec;
+  --surface-3: #e7e6e0;
+  --border: rgba(11, 11, 11, 0.1);
+  --border-strong: rgba(11, 11, 11, 0.2);
+  --ink: #0b0b0b;
+  --ink-2: #52514e;
+  --ink-3: #75736d;
+  --grid: #e1e0d9;
+  --axis: #c3c2b7;
+  --accent: #2a78d6;
+  --accent-strong: #1c5cab;
+  --accent-soft: rgba(42, 120, 214, 0.1);
+  --accent-ink: #ffffff;
+
+  --good: #0ca30c;
+  --good-ink: #006300;
+  --good-soft: rgba(12, 163, 12, 0.1);
+  --warn: #fab219;
+  --warn-ink: #8a5a00;
+  --warn-soft: rgba(250, 178, 25, 0.14);
+  --serious: #ec835a;
+  --bad: #d03b3b;
+  --bad-ink: #b02a2a;
+  --bad-soft: rgba(208, 59, 59, 0.1);
+
+  /* categorical series (fixed order) */
+  --s1: #2a78d6;
+  --s2: #eb6834;
+  --s3: #1baf7a;
+  --s4: #eda100;
+  --s5: #e87ba4;
+  --s6: #008300;
+  --s7: #4a3aa7;
+  --s8: #e34948;
+
+  /* workflow node kinds */
+  --n-llm: #4a3aa7;
+  --n-fn: #2a78d6;
+  --n-router: #c98500;
+  --n-human: #d55181;
+  --n-tool: #1baf7a;
+  --n-io: #75736d;
+
+  --code-bg: #f1f0ec;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.dark {
+  color-scheme: dark;
+  --bg: #0d0d0d;
+  --surface: #1a1a19;
+  --surface-2: #222220;
+  --surface-3: #2c2c2a;
+  --border: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.2);
+  --ink: #ffffff;
+  --ink-2: #c3c2b7;
+  --ink-3: #9a988f;
+  --grid: #2c2c2a;
+  --axis: #383835;
+  --accent: #3987e5;
+  --accent-strong: #86b6ef;
+  --accent-soft: rgba(57, 135, 229, 0.16);
+  --accent-ink: #ffffff;
+
+  --good: #0ca30c;
+  --good-ink: #3fcf3f;
+  --good-soft: rgba(12, 163, 12, 0.16);
+  --warn: #fab219;
+  --warn-ink: #fab219;
+  --warn-soft: rgba(250, 178, 25, 0.14);
+  --serious: #ec835a;
+  --bad: #d03b3b;
+  --bad-ink: #f07a7a;
+  --bad-soft: rgba(208, 59, 59, 0.18);
+
+  --s1: #3987e5;
+  --s2: #d95926;
+  --s3: #199e70;
+  --s4: #c98500;
+  --s5: #d55181;
+  --s6: #008300;
+  --s7: #9085e9;
+  --s8: #e66767;
+
+  --n-llm: #9085e9;
+  --n-fn: #3987e5;
+  --n-router: #c98500;
+  --n-human: #d55181;
+  --n-tool: #199e70;
+  --n-io: #9a988f;
+
+  --code-bg: #141413;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.25);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-good: var(--good);
+  --color-good-ink: var(--good-ink);
+  --color-good-soft: var(--good-soft);
+  --color-warn: var(--warn);
+  --color-warn-ink: var(--warn-ink);
+  --color-warn-soft: var(--warn-soft);
+  --color-bad: var(--bad);
+  --color-bad-ink: var(--bad-ink);
+  --color-bad-soft: var(--bad-soft);
+  --color-n-llm: var(--n-llm);
+  --color-n-fn: var(--n-fn);
+  --color-n-router: var(--n-router);
+  --color-n-human: var(--n-human);
+  --color-n-tool: var(--n-tool);
+  --color-n-io: var(--n-io);
+  --color-code: var(--code-bg);
+  --font-sans: var(--font-geist-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  background: var(--bg);
+  color: var(--ink);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+}
+
+::selection {
+  background: var(--accent-soft);
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--surface-3) transparent;
+}
+
+/* focus */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* prose inside lessons */
+.lesson-prose p {
+  line-height: 1.7;
+  color: var(--ink-2);
+}
+.lesson-prose strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+.lesson-prose code:not(pre code) {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  padding: 0.05em 0.35em;
+  border-radius: 5px;
+  color: var(--ink);
+}
+
+/* animated dash for active edges */
+@keyframes dash {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+.edge-active {
+  stroke-dasharray: 6 4;
+  animation: dash 0.6s linear infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 var(--accent-soft);
+  }
+  70% {
+    box-shadow: 0 0 0 10px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+.node-running {
+  animation: pulse-ring 1.2s ease-out infinite;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.fade-in {
+  animation: fade-in 0.25s ease-out both;
+}
+
+@keyframes flash-bg {
+  from {
+    background: var(--warn-soft);
+  }
+  to {
+    background: transparent;
+  }
+}
+.flash {
+  animation: flash-bg 1.4s ease-out;
+}
+
+/* React Flow theming */
+.react-flow {
+  --xy-background-color: transparent;
+  --xy-edge-stroke: var(--axis);
+  --xy-edge-stroke-selected: var(--accent);
+  --xy-handle-background-color: var(--surface);
+  --xy-handle-border-color: var(--ink-3);
+  --xy-controls-button-background-color: var(--surface);
+  --xy-controls-button-background-color-hover: var(--surface-2);
+  --xy-controls-button-color: var(--ink-2);
+  --xy-controls-button-border-color: var(--border);
+  --xy-minimap-background-color: var(--surface);
+  --xy-attribution-background-color: transparent;
+}
+.react-flow__edge-textbg {
+  fill: var(--surface);
+}
+.react-flow__edge-text {
+  fill: var(--ink-2);
+  font-size: 11px;
+  font-family: var(--font-mono);
+}
+.react-flow__handle {
+  width: 9px;
+  height: 9px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edge-active,
+  .node-running,
+  .fade-in,
+  .flash {
+    animation: none !important;
+  }
 }

@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# allow the documented template
+!.env.example
+
+# local test artifacts
+e2e-screenshots/

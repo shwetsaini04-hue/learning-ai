@@ -6,12 +6,23 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "selftest": "tsx --tsconfig tsconfig.json scripts/selftest.ts",
+    "typecheck": "tsc --noEmit",
+    "e2e": "node scripts/e2e.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.127.0",
+    "@xyflow/react": "^12.11.6",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.47.0",
     "next": "16.3.5",
+    "openai": "^7.20.0",
+    "prism-react-renderer": "^2.4.1",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "server-only": "^0.0.1",
+    "zustand": "^5.0.15"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -20,7 +31,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.5",
+    "playwright-core": "^1.63.0",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }
